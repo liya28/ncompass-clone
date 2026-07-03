@@ -1,0 +1,199 @@
+.testimonials {
+  @apply relative flex w-full flex-col items-center overflow-hidden;
+  /* Matches the near-black tone used across the rest of the page — the old
+     #2E2E2E flat grey read as a blank gap and fought with the dark cards
+     instead of letting them sit on top of it. */
+  background-color: #0d0d0d;
+  padding: 100px 120px;
+
+  /* Cheap CSS-only dot-grid texture, matching the offerings section's
+     treatment for consistency across the page. */
+  &__grid-texture {
+    @apply pointer-events-none absolute inset-0;
+    z-index: 0;
+    background-image: radial-gradient(rgba(125, 201, 49, 0.15) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black 0%, transparent 75%);
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* Pure-CSS entrance animation — not JS/IntersectionObserver-gated, so
+     content can never end up permanently invisible if a script fails or an
+     observer misbehaves. */
+  &__enter {
+    animation: testimonials-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &--2 {
+      animation-delay: 0.12s;
+    }
+
+    &--3 {
+      animation-delay: 0.24s;
+    }
+  }
+
+  &__header {
+    @apply relative flex flex-col items-center text-center;
+    z-index: 1;
+    gap: 12px;
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+
+  &__eyebrow {
+    @apply uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #ffffff;
+  }
+
+  &__headline {
+    @apply uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: #7dc931;
+    line-height: 1.15;
+  }
+
+  &__subtext {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #cccccc;
+  }
+
+  &__grid {
+    @apply relative grid items-stretch;
+    z-index: 1;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    width: 100%;
+    margin-bottom: 48px;
+  }
+
+  &__cta {
+    @apply relative;
+    z-index: 1;
+    /* ntv-button's own preflight styles set :host font-family to Nunito, so
+       it must be overridden here rather than relying on inheritance from body. */
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(125, 201, 49, 0.35);
+    }
+  }
+}
+
+/* Same visual language as the features section's stat cards — centered
+   icon-badge/value/label rhythm, dark gradient surface, green-accented
+   hover lift — so the two card styles read as one system. */
+.testimonial-card {
+  @apply relative flex flex-col items-center overflow-hidden text-center;
+  background: linear-gradient(160deg, #1a1a1a 0%, #101010 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 40px 32px;
+  gap: 14px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: rgba(125, 201, 49, 0.4);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  &__avatar {
+    @apply flex-shrink-0;
+    width: 52px;
+    height: 52px;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 2px solid rgba(125, 201, 49, 0.4);
+  }
+
+  &__quote {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    line-height: 1;
+    color: #7dc931;
+  }
+
+  &__quote-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #cccccc;
+    margin-top: -6px;
+  }
+
+  &__name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #7dc931;
+    margin-top: 6px;
+  }
+
+  &__location {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #b3b3b3;
+  }
+}
+
+@keyframes testimonials-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials__enter {
+    animation: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .testimonials {
+    padding: 80px 48px;
+  }
+
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials {
+    padding: 64px 20px;
+  }
+
+  .testimonials__headline {
+    font-size: 28px;
+  }
+
+  .testimonials__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    padding: 28px;
+  }
+
+  .testimonial-card__quote {
+    font-size: 48px;
+  }
+}

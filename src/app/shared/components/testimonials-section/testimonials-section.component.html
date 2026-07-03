@@ -1,0 +1,44 @@
+<section class="testimonials">
+
+  <span class="testimonials__grid-texture" aria-hidden="true"></span>
+
+  <div class="testimonials__header testimonials__enter">
+    <span class="testimonials__eyebrow">{{ eyebrow }}</span>
+    <h2 class="testimonials__headline">{{ headline }}</h2>
+    <p class="testimonials__subtext">{{ subtext }}</p>
+  </div>
+
+  <div class="testimonials__grid">
+    @for (testimonial of testimonials; track testimonial.name; let i = $index) {
+      <div
+        class="testimonial-card testimonials__enter"
+        [class.testimonials__enter--2]="i === 1"
+        [class.testimonials__enter--3]="i === 2"
+        appTilt
+      >
+        <img class="testimonial-card__avatar" [src]="testimonial.avatar" [alt]="testimonial.name" />
+
+        <span class="testimonial-card__quote" aria-hidden="true">&ldquo;</span>
+
+        <p class="testimonial-card__quote-text">{{ testimonial.quote }}</p>
+
+        <span class="testimonial-card__name">{{ testimonial.name }}</span>
+        <span class="testimonial-card__location">{{ testimonial.location }}</span>
+      </div>
+    }
+  </div>
+
+  <ntv-button
+    class="testimonials__cta"
+    variant="ghost"
+    color="custom"
+    customColor="#7DC931"
+    size="md"
+    rounded="lg"
+    fontSize="14px"
+    [shadow]="false"
+  >
+    {{ cta }}
+  </ntv-button>
+
+</section>

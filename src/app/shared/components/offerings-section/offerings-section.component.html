@@ -1,0 +1,86 @@
+<section class="offerings">
+
+  <span class="offerings__grid-texture" aria-hidden="true"></span>
+
+  <div class="offerings__header offerings__enter">
+    <span class="offerings__eyebrow">{{ eyebrow }}</span>
+    <h2 class="offerings__headline">{{ headline }}</h2>
+    <p class="offerings__subtext">{{ subtext }}</p>
+  </div>
+
+  <div
+    class="offerings__stage offerings__enter offerings__enter--2"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
+    <button class="offerings__arrow offerings__arrow--prev" type="button" (click)="previous()" aria-label="Previous service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+
+    @for (service of visibleServices(); track service.name; let i = $index) {
+      <article
+        class="service-card"
+        [class.service-card--center]="i === 1"
+        [class.service-card--side-left]="i === 0"
+        [class.service-card--side-right]="i === 2"
+      >
+        <span class="service-card__badge">{{ service.tier }}</span>
+        <h3 class="service-card__title">{{ service.name }}</h3>
+        <p class="service-card__description">{{ service.description }}</p>
+
+        <ntv-button
+          class="service-card__cta"
+          variant="outline"
+          color="custom"
+          customColor="#7DC931"
+          size="md"
+          rounded="lg"
+          fontSize="14px"
+          [shadow]="false"
+        >
+          {{ cardCta }}
+        </ntv-button>
+      </article>
+    }
+
+    <button class="offerings__arrow offerings__arrow--next" type="button" (click)="next()" aria-label="Next service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="offerings__dots" role="tablist" aria-label="Choose a service to view">
+    @for (service of services; track service.name; let i = $index) {
+      <button
+        class="offerings__dot"
+        type="button"
+        [class.offerings__dot--active]="i === activeIndex()"
+        (click)="goTo(i)"
+        [attr.aria-label]="'View ' + service.name"
+        [attr.aria-selected]="i === activeIndex()"
+        role="tab"
+      ></button>
+    }
+  </div>
+
+  <div class="offerings__footer-cta offerings__enter offerings__enter--2">
+    <p class="offerings__footer-cta-text">{{ ctaPrompt }}</p>
+
+    <ntv-button
+      class="offerings__footer-cta-button"
+      variant="ghost"
+      color="custom"
+      customColor="#7DC931"
+      size="lg"
+      rounded="lg"
+      fontSize="16px"
+      [shadow]="false"
+    >
+      {{ ctaLabel }}
+    </ntv-button>
+  </div>
+
+</section>

@@ -1,0 +1,89 @@
+<footer class="footer">
+
+  <div class="footer__top">
+    <div class="footer__brand">
+      <img class="footer__logo" src="assets/images/nctv-logo.png" alt="NCompassTV Logo" />
+      <p class="footer__tagline">{{ tagline }}</p>
+
+      <div class="footer__socials">
+        @for (social of socialLinks; track social.icon) {
+          <a class="footer__social-link" [href]="social.href" [attr.aria-label]="social.label">
+            @switch (social.icon) {
+              @case ('facebook') {
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22 12a10 10 0 1 0-11.5 9.95v-7.04H7.9V12h2.6V9.8c0-2.57 1.53-4 3.87-4 1.12 0 2.3.2 2.3.2v2.53h-1.3c-1.28 0-1.68.8-1.68 1.62V12h2.86l-.46 2.91h-2.4v7.04A10 10 0 0 0 22 12z" />
+                </svg>
+              }
+              @case ('instagram') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
+                  <circle cx="12" cy="12" r="4.2" />
+                  <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              }
+              @case ('linkedin') {
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5 3.5A2.5 2.5 0 1 1 5 8.5 2.5 2.5 0 0 1 5 3.5zM.75 9.65h4.5V23H.75V9.65zM8.6 9.65h4.32v1.84h.06c.6-1.14 2.07-2.15 4.26-2.15 4.55 0 5.39 3 5.39 6.9V23h-4.5v-6.03c0-1.44-.03-3.29-2.01-3.29-2.01 0-2.32 1.57-2.32 3.19V23H8.6V9.65z" />
+                </svg>
+              }
+            }
+          </a>
+        }
+      </div>
+    </div>
+
+    <div class="footer__column">
+      <h3 class="footer__heading">Contact</h3>
+      <ul class="footer__list">
+        @for (info of contactInfo; track info.value) {
+          <li class="footer__info-item">
+            <span class="footer__info-icon">
+              @switch (info.icon) {
+                @case ('pin') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21s-7-6.5-7-11a7 7 0 1 1 14 0c0 4.5-7 11-7 11z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                }
+                @case ('phone') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                }
+                @case ('email') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 6-10 7L2 6" />
+                  </svg>
+                }
+              }
+            </span>
+            <span>{{ info.value }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="footer__column">
+      <h3 class="footer__heading">Quick Links</h3>
+      <ul class="footer__list">
+        @for (link of quickLinks; track link.href) {
+          <li>
+            <a class="footer__link" [href]="link.href">{{ link.label }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <span class="footer__copyright">© N-Compass TV {{ currentYear }} | <a href="#" class="footer__privacy-link">Privacy Policy</a></span>
+
+    <button class="footer__back-to-top" type="button" (click)="scrollToTop()" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+  </div>
+
+</footer>

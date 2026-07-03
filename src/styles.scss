@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0d0d0d;
+}
+
+/* @ntv360/component-pantry's Button has a structural bug in its outline
+   variant: on hover, background-color, border-color, AND text color are all
+   tied to the same --hover-color custom property. Since we never set a
+   hoverColor input, that property is unset, which computes to a stray gray
+   box — and even setting it explicitly can't fix this, since text would
+   always match its own background (invisible) no matter what value is
+   chosen. There's no working public-API fix, so we neutralize the hover
+   state here: it now just holds the resting outline look, and our own
+   per-button hover lift/glow (transform + box-shadow) still provides the
+   interaction feedback. */
+.btn--outline:hover:not(:disabled):not(.btn--disabled) {
+  background-color: transparent !important;
+  border-color: var(--btn-outline-color) !important;
+  color: var(--btn-outline-color) !important;
+}

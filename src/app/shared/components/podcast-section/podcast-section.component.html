@@ -1,0 +1,67 @@
+<section class="podcast">
+
+  <div class="podcast__bg-wrapper">
+    <div class="podcast__bg" appParallax [speed]="0.12"></div>
+  </div>
+
+  <div class="podcast__overlay"></div>
+
+  <div class="podcast__row">
+    <div class="podcast__content podcast__enter">
+      <span class="podcast__eyebrow">{{ eyebrow }}</span>
+
+      <h2 class="podcast__headline">
+        {{ headlineLead }}
+        <span class="podcast__headline-title-row">
+          <span class="podcast__headline-title">{{ headlineTitle }}</span>
+
+          <span class="podcast__waveform" aria-hidden="true" title="Now playing">
+            @for (bar of waveformBars; track bar) {
+              <span class="podcast__waveform-bar"></span>
+            }
+          </span>
+        </span>
+      </h2>
+
+      <p class="podcast__text" [innerHTML]="text"></p>
+
+      <div class="podcast__cta-group">
+        <ntv-button
+          class="podcast__cta podcast__cta--spotify"
+          variant="outline"
+          color="custom"
+          customColor="#1DB954"
+          size="md"
+          rounded="lg"
+          fontSize="14px"
+          [shadow]="false"
+        >
+          {{ spotifyCta }}
+        </ntv-button>
+
+        <ntv-button
+          class="podcast__cta podcast__cta--apple"
+          variant="outline"
+          color="custom"
+          customColor="#FA243B"
+          size="md"
+          rounded="lg"
+          fontSize="14px"
+          [shadow]="false"
+        >
+          {{ appleMusicCta }}
+        </ntv-button>
+      </div>
+    </div>
+
+    <div class="podcast__media podcast__enter podcast__enter--2" appTilt>
+      <img class="podcast__image" src="assets/images/our-journey-thumb.png" alt="Beyond the Words podcast hosts" />
+      <span class="podcast__play-button" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+    </div>
+  </div>
+
+</section>

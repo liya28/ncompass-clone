@@ -1,0 +1,344 @@
+.offerings {
+  @apply relative flex w-full flex-col items-center overflow-hidden;
+  /* A distinct "world" of its own between the #0D0D0D sections above/below,
+     without a hard, jarring edge at either seam. */
+  background: linear-gradient(180deg, #0d0d0d 0%, #0f1f00 60%, #0d0d0d 100%);
+  padding: 100px 120px;
+
+  /* Cheap CSS-only dot-grid texture behind the header, echoing the hero's
+     brand motif without needing an image asset. */
+  &__grid-texture {
+    @apply pointer-events-none absolute inset-0;
+    background-image: radial-gradient(rgba(125, 201, 49, 0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black 0%, transparent 75%);
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* Pure-CSS entrance animation — not JS/IntersectionObserver-gated, so
+     content can never end up permanently invisible if a script fails or an
+     observer misbehaves. */
+  &__enter {
+    animation: offerings-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &--2 {
+      animation-delay: 0.12s;
+    }
+  }
+
+  &__header {
+    @apply relative;
+    @apply flex flex-col items-center text-center;
+    gap: 12px;
+    max-width: 640px;
+    margin: 0 auto 56px;
+  }
+
+  &__eyebrow {
+    @apply uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #ffffff;
+  }
+
+  &__headline {
+    @apply uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: #7dc931;
+    line-height: 1.15;
+  }
+
+  &__subtext {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #cccccc;
+  }
+
+  /* The 3D stack's viewport — gives the side cards somewhere to recede
+     into via translateZ, and clips them at its own edges rather than the
+     section's, so the arrows can sit just outside the cards. */
+  &__stage {
+    @apply relative flex w-full items-center justify-center;
+    z-index: 1;
+    max-width: 1000px;
+    height: 420px;
+    perspective: 1200px;
+  }
+
+  &__arrow {
+    @apply absolute flex flex-shrink-0 cursor-pointer items-center justify-center;
+    top: 50%;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    transform: translateY(-50%);
+    border-radius: 9999px;
+    border: 1.5px solid #7dc931;
+    background-color: #0d0d0d;
+    color: #7dc931;
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background-color: #7dc931;
+      color: #0a1a00;
+      box-shadow: 0 8px 20px rgba(125, 201, 49, 0.35);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.96);
+    }
+
+    &--prev {
+      left: 0;
+    }
+
+    &--next {
+      right: 0;
+    }
+  }
+
+  &__dots {
+    @apply relative flex items-center justify-center;
+    z-index: 1;
+    gap: 10px;
+    margin-top: 32px;
+  }
+
+  &__dot {
+    @apply cursor-pointer p-0;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    border: none;
+    background-color: rgba(125, 201, 49, 0.3);
+    transition: background-color 0.25s ease, transform 0.25s ease, width 0.25s ease;
+
+    &:hover {
+      background-color: rgba(125, 201, 49, 0.6);
+    }
+
+    &--active {
+      width: 24px;
+      background-color: #7dc931;
+    }
+  }
+
+  &__footer-cta {
+    @apply relative flex flex-col items-center;
+    z-index: 1;
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  &__footer-cta-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #888888;
+  }
+
+  &__footer-cta-button {
+    /* ntv-button's own preflight styles set :host font-family to Nunito, so it
+       must be overridden here rather than relying on inheritance from body. */
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(125, 201, 49, 0.35);
+    }
+  }
+}
+
+.service-card {
+  @apply absolute flex flex-col;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 560px;
+  min-height: 340px;
+  background-color: #141414;
+  border: 1px solid #222222;
+  border-radius: 16px;
+  padding: 48px;
+  transition: transform 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease, box-shadow 0.3s ease;
+  animation: service-card-enter 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  &--center {
+    transform: translate(-50%, -50%) translateZ(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+    filter: blur(0);
+
+    /* Same hover lift + green border used by the stat and testimonial
+       cards elsewhere on the site — kept to the center card only, since
+       the side cards are decorative and never meant to be interacted with. */
+    &:hover {
+      transform: translate(-50%, -50%) translateZ(0) scale(1) translateY(-6px);
+      border-color: rgba(125, 201, 49, 0.4);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  &--side-left {
+    transform: translate(-50%, -50%) translateZ(-150px) translateX(-62%) scale(0.85);
+    opacity: 0.4;
+    z-index: 1;
+    filter: blur(4px) brightness(0.55);
+  }
+
+  &--side-right {
+    transform: translate(-50%, -50%) translateZ(-150px) translateX(62%) scale(0.85);
+    opacity: 0.4;
+    z-index: 1;
+    filter: blur(4px) brightness(0.55);
+  }
+
+  &__badge {
+    @apply inline-flex w-fit uppercase;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #0d0d0d;
+    background-color: #7dc931;
+    padding: 6px 14px;
+    border-radius: 9999px;
+  }
+
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: #ffffff;
+    margin-top: 20px;
+  }
+
+  &__description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #888888;
+    margin-top: 12px;
+  }
+
+  &__cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    margin-top: auto;
+    padding-top: 24px;
+    align-self: flex-start;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(125, 201, 49, 0.3);
+    }
+  }
+}
+
+@keyframes service-card-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes offerings-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offerings__enter {
+    animation: none;
+  }
+
+  .service-card {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .offerings {
+    padding: 80px 48px;
+  }
+
+  .offerings__stage {
+    height: 380px;
+  }
+
+  .service-card {
+    padding: 36px;
+  }
+
+  .service-card--side-left {
+    transform: translate(-50%, -50%) translateZ(-150px) translateX(-52%) scale(0.82);
+  }
+
+  .service-card--side-right {
+    transform: translate(-50%, -50%) translateZ(-150px) translateX(52%) scale(0.82);
+  }
+}
+
+@media (max-width: 640px) {
+  .offerings {
+    padding: 64px 20px;
+  }
+
+  .offerings__headline {
+    font-size: 32px;
+  }
+
+  .offerings__stage {
+    height: 340px;
+  }
+
+  .offerings__arrow {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Side cards fully hidden rather than clipped mid-card on narrow screens —
+     there isn't room to peek at their edges without them looking cut off. */
+  .service-card--side-left,
+  .service-card--side-right {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .service-card {
+    padding: 28px;
+    min-height: unset;
+  }
+
+  .service-card__title {
+    font-size: 22px;
+  }
+}

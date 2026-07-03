@@ -1,0 +1,221 @@
+.hero {
+  @apply relative flex w-full flex-col overflow-hidden;
+  height: 100vh;
+  min-height: 640px;
+  justify-content: center;
+  padding: 0 120px;
+
+  &__bg-wrapper {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+  }
+
+  &__bg {
+    @apply absolute w-full;
+    left: 0;
+    top: -20%;
+    height: 140%;
+    background-image: url('/assets/images/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+
+  &__overlay {
+    @apply absolute inset-0;
+    background-color: rgba(13, 13, 13, 0.8);
+  }
+
+  /* Decorative "N-Compass" motif, echoing the brand's compass mark. Purely
+     ambient texture: low opacity, slow rotation, hidden from assistive tech.
+     Pulled in close enough to overlap the content column intentionally. */
+  &__compass {
+    @apply pointer-events-none absolute;
+    top: 50%;
+    right: -260px;
+    width: 640px;
+    height: 640px;
+    transform: translateY(-50%);
+    opacity: 0.16;
+    animation: hero-compass-spin 120s linear infinite;
+  }
+
+  &__compass-ring {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 1;
+  }
+
+  &__compass-tick {
+    stroke: #ffffff;
+    stroke-width: 2;
+  }
+
+  &__compass-needle-north {
+    fill: #7dc931;
+  }
+
+  &__compass-needle-south {
+    fill: #ffffff;
+  }
+
+  &__compass-pivot {
+    fill: #0d0d0d;
+    stroke: #ffffff;
+    stroke-width: 2;
+  }
+
+  &__content {
+    @apply relative flex flex-col;
+    z-index: 1;
+    gap: 24px;
+    max-width: 600px;
+  }
+
+  /* Pure-CSS entrance animation — deliberately not JS-gated, since this
+     content is always above the fold and must never depend on script
+     execution/observer timing to become visible. */
+  &__enter {
+    animation: hero-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &--2 {
+      animation-delay: 0.1s;
+    }
+
+    &--3 {
+      animation-delay: 0.2s;
+    }
+  }
+
+  &__headline {
+    @apply flex flex-col uppercase;
+  }
+
+  &__headline-line {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+
+    &--primary {
+      font-size: 72px;
+      color: #ffffff;
+    }
+
+    &--accent {
+      font-size: 56px;
+      color: #7dc931;
+    }
+  }
+
+  &__subtext {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #cccccc;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  &__cta-group {
+    @apply flex items-center;
+    gap: 16px;
+
+    /* ntv-button's own preflight styles set :host font-family to Nunito, so it
+       must be overridden here rather than relying on inheritance from body. */
+    ntv-button {
+      font-family: 'Poppins', sans-serif;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+
+    ntv-button:first-child:hover {
+      box-shadow: 0 12px 28px rgba(125, 201, 49, 0.35);
+    }
+
+    ntv-button:last-child:hover {
+      box-shadow: 0 12px 28px rgba(255, 255, 255, 0.12);
+    }
+  }
+}
+
+@keyframes hero-compass-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__compass {
+    animation: none;
+  }
+
+  .hero__enter {
+    animation: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    padding: 0 64px;
+  }
+
+  .hero__compass {
+    width: 480px;
+    height: 480px;
+    right: -200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 0 24px;
+  }
+
+  .hero__content {
+    max-width: 100%;
+  }
+
+  .hero__headline-line--primary {
+    font-size: 44px;
+  }
+
+  .hero__headline-line--accent {
+    font-size: 32px;
+  }
+
+  .hero__subtext {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .hero__compass {
+    width: 320px;
+    height: 320px;
+    right: -160px;
+    opacity: 0.1;
+  }
+
+  .hero__cta-group {
+    @apply flex-col items-stretch;
+
+    ntv-button {
+      width: 100%;
+    }
+  }
+}

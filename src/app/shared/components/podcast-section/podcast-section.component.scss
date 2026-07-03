@@ -1,0 +1,236 @@
+.podcast {
+  @apply relative w-full;
+  padding: 140px 0;
+
+  &__bg-wrapper {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+  }
+
+  &__bg {
+    @apply absolute w-full;
+    left: 0;
+    top: -10%;
+    height: 120%;
+    background-image: url('/assets/images/podcast-bg.png');
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+
+  &__overlay {
+    @apply absolute inset-0;
+    background-color: rgba(13, 13, 13, 0.78);
+  }
+
+  /* Now-playing style indicator, inline with the podcast title rather than
+     a decorative background strip — reads as "this show is live," not
+     as ambient texture. */
+  &__waveform {
+    @apply pointer-events-none inline-flex items-center;
+    height: 28px;
+    gap: 3px;
+  }
+
+  &__waveform-bar {
+    width: 4px;
+    height: 12px;
+    background-color: #7dc931;
+    border-radius: 2px;
+    animation: podcast-waveform-bounce 0.9s ease-in-out infinite;
+
+    /* Varied per-bar height/speed/delay so the strip reads as a live
+       equalizer rather than a uniform, mechanical bounce. */
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        height: #{12 + ($i * 7 % 5) * 4}px;
+        animation-duration: #{0.6 + ($i % 5) * 0.15}s;
+        animation-delay: #{($i % 5) * 0.09}s;
+      }
+    }
+  }
+
+  &__row {
+    @apply relative flex items-center justify-between;
+    z-index: 1;
+    padding: 0 120px;
+    gap: 64px;
+  }
+
+  /* Pure-CSS entrance animation — not JS/IntersectionObserver-gated, so
+     content can never end up permanently invisible if a script fails or an
+     observer misbehaves. */
+  &__enter {
+    animation: podcast-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &--2 {
+      animation-delay: 0.15s;
+    }
+  }
+
+  &__content {
+    @apply flex flex-col;
+    gap: 20px;
+    max-width: 560px;
+  }
+
+  &__eyebrow {
+    @apply uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #7dc931;
+  }
+
+  &__headline {
+    @apply flex flex-col;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+
+  &__headline-title-row {
+    @apply flex items-center;
+    gap: 24px;
+  }
+
+  &__headline-title {
+    font-style: italic;
+    font-weight: 400;
+    color: #cccccc;
+  }
+
+  &__text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #b3b3b3;
+
+    /* Bold/italic spans come from [innerHTML], so they're raw DOM nodes the
+       Angular compiler never sees — ::ng-deep is required to reach past the
+       component's view-encapsulation attribute for this dynamic content. */
+    ::ng-deep strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    ::ng-deep em {
+      font-style: italic;
+      color: #ffffff;
+    }
+  }
+
+  &__cta-group {
+    @apply flex items-center;
+    gap: 16px;
+    margin-top: 8px;
+
+    /* ntv-button's own preflight styles set :host font-family to Nunito, so
+       it must be overridden here rather than relying on inheritance from body. */
+    ntv-button {
+      font-family: 'Poppins', sans-serif;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+  }
+
+  &__cta--spotify:hover {
+    box-shadow: 0 12px 24px rgba(29, 185, 84, 0.35);
+  }
+
+  &__cta--apple:hover {
+    box-shadow: 0 12px 24px rgba(250, 36, 59, 0.3);
+  }
+
+  &__media {
+    @apply relative flex-shrink-0;
+    width: 100%;
+    max-width: 480px;
+    margin-right: -32px;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+
+    /* Glowing accent node, matching the connecting-line motif used on the
+       features section — not a plain offset rectangle frame. */
+    &::before {
+      content: '';
+      @apply pointer-events-none absolute;
+      top: -10px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      background: #7dc931;
+      border-radius: 9999px;
+      box-shadow: 0 0 0 4px rgba(125, 201, 49, 0.2), 0 0 16px 4px rgba(125, 201, 49, 0.6);
+      z-index: 1;
+    }
+  }
+
+  &__image {
+    @apply w-full;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  &__play-button {
+    @apply absolute flex items-center justify-center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    transition: transform 0.25s ease;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      color: #e85c2c;
+      margin-left: 3px;
+    }
+  }
+
+  &__media:hover &__play-button {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+@keyframes podcast-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes podcast-waveform-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(1.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .podcast__enter {
+    animation: none;
+  }
+
+  .podcast__waveform-bar {
+    animation: none;
+  }
+}

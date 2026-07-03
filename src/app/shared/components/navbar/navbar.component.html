@@ -1,0 +1,41 @@
+<nav class="navbar">
+  <div class="navbar__container">
+    <a class="navbar__logo" href="#">
+      <img class="navbar__logo-image" src="assets/images/nctv-logo.png" alt="NCompassTV Logo" />
+    </a>
+
+    <ul class="navbar__links" [class.navbar__links--open]="menuOpen()" id="navbar-links">
+      @for (link of navLinks; track link.href) {
+        <li class="navbar__item">
+          <a class="navbar__link" [href]="link.href" (click)="closeMenu()">{{ link.label }}</a>
+        </li>
+      }
+    </ul>
+
+    <ntv-button
+      class="navbar__cta"
+      variant="ghost"
+      color="custom"
+      customColor="#7DC931"
+      size="md"
+      rounded="lg"
+      fontSize="14px"
+      [shadow]="false"
+    >
+      Become a Dealer
+    </ntv-button>
+
+    <button
+      class="navbar__toggle"
+      type="button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="navbar-links"
+      aria-label="Toggle navigation menu"
+    >
+      <span class="navbar__toggle-bar" [class.navbar__toggle-bar--open]="menuOpen()"></span>
+      <span class="navbar__toggle-bar" [class.navbar__toggle-bar--open]="menuOpen()"></span>
+      <span class="navbar__toggle-bar" [class.navbar__toggle-bar--open]="menuOpen()"></span>
+    </button>
+  </div>
+</nav>

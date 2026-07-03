@@ -1,0 +1,316 @@
+.features {
+  @apply relative w-full;
+  background-color: #0d0d0d;
+  padding: 100px 0;
+
+  /* The single connecting motif for this section — one quiet route running
+     from "Our Model" through the stats and down to "Our Journey". Kept
+     deliberately recessive (low opacity, thin stroke) so it reads as
+     supporting structure behind the content rather than competing with it —
+     especially since it passes near the (also green) stat numbers. */
+  &__route {
+    @apply pointer-events-none absolute inset-0;
+    z-index: 0;
+  }
+
+  &__route-line {
+    fill: none;
+    stroke: #7dc931;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 10 10;
+    opacity: 0.3;
+    animation: features-route-flow 18s linear infinite;
+  }
+
+  &__route-point {
+    fill: #7dc931;
+    opacity: 0.6;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: features-node-pulse 2.4s ease-in-out infinite;
+  }
+
+  &__row {
+    @apply relative;
+    z-index: 1;
+    @apply flex items-center justify-between;
+    gap: 64px;
+    padding: 0 120px;
+
+    &:last-of-type {
+      margin-top: 100px;
+    }
+  }
+
+  /* Pure-CSS entrance animation — not JS/IntersectionObserver-gated, so
+     content can never end up permanently invisible if a script fails or an
+     observer misbehaves. */
+  &__enter {
+    animation: features-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &--2 {
+      animation-delay: 0.12s;
+    }
+
+    &--3 {
+      animation-delay: 0.24s;
+    }
+  }
+
+  &__content {
+    @apply flex flex-col;
+    gap: 16px;
+    max-width: 520px;
+  }
+
+  &__eyebrow {
+    @apply uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #7dc931;
+  }
+
+  &__headline {
+    @apply uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: #ffffff;
+    line-height: 1.15;
+  }
+
+  &__text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #b3b3b3;
+
+    /* Bold spans come from [innerHTML], so they're raw DOM nodes the Angular
+       compiler never sees — ::ng-deep is required to reach past the
+       component's view-encapsulation attribute for this dynamic content. */
+    ::ng-deep strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+  }
+
+  &__cta {
+    /* ntv-button's own preflight styles set :host font-family to Nunito, so it
+       must be overridden here rather than relying on inheritance from body. */
+    font-family: 'Poppins', sans-serif;
+    align-self: flex-start;
+    margin-top: 8px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(125, 201, 49, 0.3);
+    }
+  }
+
+  &__media {
+    @apply relative flex-shrink-0;
+    width: 100%;
+    max-width: 520px;
+    margin-left: -40px;
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+
+    /* Glowing node where the route line "plugs into" the image — replaces a
+       plain offset rectangle frame with something that reads as part of the
+       same connecting motif rather than a generic layered-card cliché. */
+    &::before {
+      content: '';
+      @apply pointer-events-none absolute;
+      top: -10px;
+      left: -10px;
+      width: 20px;
+      height: 20px;
+      background: #7dc931;
+      border-radius: 9999px;
+      box-shadow: 0 0 0 4px rgba(125, 201, 49, 0.2), 0 0 16px 4px rgba(125, 201, 49, 0.6);
+      z-index: 1;
+    }
+
+    &--flip {
+      margin-left: 0;
+      margin-right: -40px;
+
+      &::before {
+        left: auto;
+        right: -10px;
+        bottom: -10px;
+        top: auto;
+      }
+    }
+  }
+
+  &__image {
+    @apply w-full;
+    border-radius: 12px;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 10;
+  }
+
+  &__stats {
+    @apply relative flex items-start justify-between;
+    z-index: 1;
+    padding: 0 120px;
+    margin-top: 100px;
+    gap: 24px;
+  }
+
+  &__stat {
+    @apply relative flex flex-1 flex-col items-center;
+    z-index: 1;
+    gap: 14px;
+    text-align: center;
+    padding: 36px 24px;
+    background: linear-gradient(160deg, #1a1a1a 0%, #101010 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      border-color: rgba(125, 201, 49, 0.4);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  &__stat-icon {
+    @apply flex items-center justify-center;
+    width: 52px;
+    height: 52px;
+    border-radius: 9999px;
+    background-color: rgba(125, 201, 49, 0.12);
+    color: #7dc931;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__stat-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: #7dc931;
+  }
+
+  &__stat-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #b3b3b3;
+  }
+}
+
+@keyframes features-node-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.8;
+  }
+}
+
+@keyframes features-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes features-route-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -260;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .features__route-point,
+  .features__route-line {
+    animation: none;
+  }
+
+  .features__enter {
+    animation: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .features__row,
+  .features__stats {
+    padding: 0 48px;
+  }
+
+  .features__stats {
+    flex-wrap: wrap;
+  }
+
+  .features__stat {
+    flex-basis: calc(50% - 12px);
+  }
+}
+
+@media (max-width: 900px) {
+  .features__row {
+    @apply flex-col;
+    gap: 40px;
+
+    &:last-of-type {
+      margin-top: 64px;
+    }
+  }
+
+  .features__media,
+  .features__media--flip {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .features__content {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .features {
+    padding: 64px 0;
+  }
+
+  .features__row,
+  .features__stats {
+    padding: 0 20px;
+  }
+
+  .features__stats {
+    margin-top: 64px;
+  }
+
+  .features__stat {
+    flex-basis: 100%;
+  }
+
+  .features__headline {
+    font-size: 28px;
+  }
+}

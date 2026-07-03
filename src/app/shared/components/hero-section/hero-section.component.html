@@ -1,0 +1,57 @@
+<section class="hero">
+
+  <div class="hero__bg-wrapper">
+    <div class="hero__bg" [style.background-position-y.px]="backgroundPositionY()"></div>
+  </div>
+
+  <div class="hero__overlay"></div>
+
+  <svg class="hero__compass" viewBox="0 0 400 400" aria-hidden="true">
+    <circle class="hero__compass-ring" cx="200" cy="200" r="180" />
+    <circle class="hero__compass-ring" cx="200" cy="200" r="140" />
+    @for (angle of compassTicks; track angle) {
+      <line class="hero__compass-tick" x1="200" y1="26" x2="200" y2="46" [attr.transform]="'rotate(' + angle + ' 200 200)'" />
+    }
+    <path class="hero__compass-needle-north" d="M200 68 L214 200 L186 200 Z" />
+    <path class="hero__compass-needle-south" d="M200 332 L214 200 L186 200 Z" />
+    <circle class="hero__compass-pivot" cx="200" cy="200" r="8" />
+  </svg>
+
+  <div class="hero__content">
+
+    <h1 class="hero__headline hero__enter">
+      <span class="hero__headline-line hero__headline-line--primary">{{ headlineLine1 }}</span>
+      <span class="hero__headline-line hero__headline-line--accent">{{ headlineLine2 }}</span>
+    </h1>
+
+    <p class="hero__subtext hero__enter hero__enter--2">{{ subtext }}</p>
+
+    <div class="hero__cta-group hero__enter hero__enter--3">
+      <ntv-button
+        variant="ghost"
+        color="custom"
+        customColor="#7DC931"
+        size="lg"
+        rounded="lg"
+        fontSize="16px"
+        [shadow]="false"
+      >
+        {{ primaryCta }}
+      </ntv-button>
+
+      <ntv-button
+        variant="outline"
+        color="custom"
+        customColor="#FFFFFF"
+        size="lg"
+        rounded="lg"
+        fontSize="16px"
+        [shadow]="false"
+      >
+        {{ secondaryCta }}
+      </ntv-button>
+    </div>
+
+  </div>
+
+</section>
